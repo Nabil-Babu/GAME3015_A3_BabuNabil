@@ -1,17 +1,18 @@
 #include "SpriteNode.h"
 #include "Game.hpp"
+#include "State.hpp"
 
-SpriteNode::SpriteNode(Game* game) : Entity(game)
+SpriteNode::SpriteNode(State* state) : Entity(state)
 {
 }
 
+
 void SpriteNode::drawCurrent() const
 {
-	renderer->World = getTransform();
-	renderer->NumFramesDirty++;
-
 	UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
 	UINT matCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(MaterialConstants));
+
+	Game* game = mState->getContext()->game;
 
 	auto objectCB = game->mCurrFrameResource->ObjectCB->Resource();
 	auto matCB = game->mCurrFrameResource->MaterialCB->Resource();
@@ -39,17 +40,27 @@ void SpriteNode::drawCurrent() const
 
 void SpriteNode::buildCurrent()
 {
+	Game* game = mState->getContext()->game;
+
 	auto render = std::make_unique<RenderItem>();
 	renderer = render.get();
 	renderer->World = getTransform();
-	XMStoreFloat4x4(&renderer->TexTransform, XMMatrixScaling(50.0f, 50.0f, 1.0f));
-	renderer->ObjCBIndex = (UINT) game->getRenderItems().size();
-	renderer->Mat = game->getMaterials()["Desert"].get();
-	renderer->Geo = game->getGeometries()["boxGeo"].get();
+	XMStoreFloat4x4(&renderer->TexTransform, XMMatrixScaling(1.0f, 1.0f, 1.0f));
+	renderer->ObjCBIndex = (UINT) mState->getRenderItems().size();
+	renderer->Mat = game->getMaterials()[mMat].get(); //"Desert"
+	renderer->Geo = game->getGeometries()[mGeo].get(); //"boxGeo"
 	renderer->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	renderer->IndexCount = renderer->Geo->DrawArgs["box"].IndexCount;
-	renderer->StartIndexLocation = renderer->Geo->DrawArgs["box"].StartIndexLocation;
-	renderer->BaseVertexLocation = renderer->Geo->DrawArgs["box"].BaseVertexLocation;
+	renderer->IndexCount = renderer->Geo->DrawArgs[mDrawName].IndexCount; //"box"
+	renderer->StartIndexLocation = renderer->Geo->DrawArgs[mDrawName].StartIndexLocation;
+	renderer->BaseVertexLocation = renderer->Geo->DrawArgs[mDrawName].BaseVertexLocation;
 	mSpriteNodeRitem = render.get();
-	game->getRenderItems().push_back(std::move(render));
+	mState->getRenderItems().push_back(std::move(render));
 }
+
+void SpriteNode::SetMatGeoDrawName(std::string Mat, std::string Geo, std::string DrawName)
+{
+	mMat = Mat;
+	mGeo = Geo;
+	mDrawName = DrawName;
+}
+

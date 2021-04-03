@@ -1,7 +1,8 @@
 #include "Aircraft.hpp"
 #include "Game.hpp"
+#include "State.hpp"
 
-Aircraft::Aircraft(Type type, Game* game) : Entity(game)
+Aircraft::Aircraft(Type type, State* state) : Entity(state)
 	, mType(type)
 {
 	switch (type)
@@ -35,6 +36,8 @@ void Aircraft::drawCurrent() const
 	UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
 	UINT matCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(MaterialConstants));
 
+	Game* game = mState->getContext()->game;
+
 	auto objectCB = game->mCurrFrameResource->ObjectCB->Resource();
 	auto matCB = game->mCurrFrameResource->MaterialCB->Resource();
 
@@ -60,10 +63,12 @@ void Aircraft::drawCurrent() const
 
 void Aircraft::buildCurrent()
 {
+	Game* game = mState->getContext()->game;
+
 	auto render = std::make_unique<RenderItem>();
 	renderer = render.get();
 	renderer->World = getTransform();
-	renderer->ObjCBIndex = (UINT) game->getRenderItems().size();
+	renderer->ObjCBIndex = (UINT) mState->getRenderItems().size();
 	renderer->Mat = game->getMaterials()[mSprite].get();
 	renderer->Geo = game->getGeometries()["boxGeo"].get();
 	renderer->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -71,5 +76,5 @@ void Aircraft::buildCurrent()
 	renderer->StartIndexLocation = renderer->Geo->DrawArgs["box"].StartIndexLocation;
 	renderer->BaseVertexLocation = renderer->Geo->DrawArgs["box"].BaseVertexLocation;
 	mAircraftRitem = render.get();
-	game->getRenderItems().push_back(std::move(render));
+	mState->getRenderItems().push_back(std::move(render));
 }

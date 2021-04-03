@@ -9,7 +9,7 @@
 class World
 {
 public:
-	explicit							World(Game* game);
+	explicit							World(State* state);
 	void								update(const GameTimer& gt);
 	void								draw();
 	//void								loadTextures();
@@ -33,7 +33,7 @@ private:
 
 
 private:
-	Game* mGame;
+	State* mState;
 
 	SceneNode* mSceneGraph;
 	std::array<SceneNode*, 2>	mSceneLayers;
