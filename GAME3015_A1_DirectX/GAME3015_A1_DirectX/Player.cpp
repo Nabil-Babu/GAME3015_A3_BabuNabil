@@ -34,10 +34,10 @@ Player::Player()
 	mKeyBinding[VK_UP] = MoveUp;
 	mKeyBinding[VK_DOWN] = MoveDown;
 
-	mKeyBinding['A'] = MoveLeft;
+	/*mKeyBinding['A'] = MoveLeft;
 	mKeyBinding['D'] = MoveRight;
 	mKeyBinding['W'] = MoveUp;
-	mKeyBinding['S'] = MoveDown;
+	mKeyBinding['S'] = MoveDown;*/
 
 	// Set initial action bindings
 	initializeActions();
@@ -112,6 +112,24 @@ char Player::getAssignedKey(Action action) const
 	}
 
 	return 0x00;
+}
+
+void Player::remapKeys(int choice)
+{
+	if (choice == 1)
+	{
+		assignKey(MoveLeft, VK_LEFT);
+		assignKey(MoveRight, VK_RIGHT);
+		assignKey(MoveUp, VK_UP);
+		assignKey(MoveDown, VK_DOWN);
+	}
+	else if (choice == 2)
+	{
+		assignKey(MoveLeft, 'A');
+		assignKey(MoveRight, 'D');
+		assignKey(MoveUp, 'W');
+		assignKey(MoveDown, 'S');
+	}
 }
 
 void Player::initializeActions()

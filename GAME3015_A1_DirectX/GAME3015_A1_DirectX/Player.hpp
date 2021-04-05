@@ -22,6 +22,7 @@ public:
 
 	void					assignKey(Action action, char key);
 	char					getAssignedKey(Action action) const;
+	void remapKeys(int choice);
 
 private:
 	void					initializeActions();

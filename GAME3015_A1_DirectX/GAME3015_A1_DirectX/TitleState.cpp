@@ -9,7 +9,7 @@ TitleState::TitleState(StateStack* stack, Context* context)
     mContext->game->ResetFrameResources();
 
     std::unique_ptr<SpriteNode> backgroundSprite = std::make_unique<SpriteNode>(this);
-    backgroundSprite->SetMatGeoDrawName("StarWars", "boxGeo", "box");
+    backgroundSprite->SetMatGeoDrawName("StarWars_Title", "boxGeo", "box");
     backgroundSprite->setScale(11.5, 1.0, 10.0);
     backgroundSprite->setPosition(0, 0, 0);
     mSceneGraph->attachChild(std::move(backgroundSprite));
@@ -39,7 +39,7 @@ bool TitleState::handleEvent(WPARAM btnState)
     // Any Key
     //
     requestStackPop();
-    requestStackPush(States::Game);
+    requestStackPush(States::Menu);
     return true;
 }
 

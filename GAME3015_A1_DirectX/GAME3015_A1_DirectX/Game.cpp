@@ -1,6 +1,9 @@
 #include "Game.hpp"
 #include "GameState.hpp"
 #include "TitleState.hpp"
+#include "MenuState.h"
+#include "OptionState.h"
+#include "PauseState.h"
 #include "StateIdentifiers.hpp"
 
 const int gNumFrameResources = 3;
@@ -333,8 +336,11 @@ void Game::LoadTextures()
 	CreateTexture("RaptorTex", L"../../Textures/Raptor.dds");
 	//Desert
 	CreateTexture("DesertTex", L"../../Textures/Desert.dds");
-	//StarWars
-	CreateTexture("StarWarsTex", L"../../Textures/StarWars_Menu.dds");
+
+	CreateTexture("StarWarsTexTitle", L"../../Textures/StarWars_Title.dds");
+	CreateTexture("StarWarsTexMenu", L"../../Textures/StarWars_Menu.dds");
+	CreateTexture("StarWarsTexOption", L"../../Textures/StarWars_Option.dds");
+	CreateTexture("StarWarsTexPause", L"../../Textures/StarWars_Pause.dds");
 }
 
 void Game::CreateTexture(std::string Name, std::wstring FileName)
@@ -398,7 +404,7 @@ void Game::BuildDescriptorHeaps()
 	// Create the SRV heap.
 	//
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	srvHeapDesc.NumDescriptors = 4;
+	srvHeapDesc.NumDescriptors = 7;
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	ThrowIfFailed(md3dDevice->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&mSrvDescriptorHeap)));
@@ -411,7 +417,10 @@ void Game::BuildDescriptorHeaps()
 	auto EagleTex = mTextures["EagleTex"]->Resource;
 	auto RaptorTex = mTextures["RaptorTex"]->Resource;
 	auto DesertTex = mTextures["DesertTex"]->Resource;
-	auto StarWarsTex = mTextures["StarWarsTex"]->Resource;
+	auto StarWarsTexTitle = mTextures["StarWarsTexTitle"]->Resource;
+	auto StarWarsTexMenu = mTextures["StarWarsTexMenu"]->Resource;
+	auto StarWarsTexOption = mTextures["StarWarsTexOption"]->Resource;
+	auto StarWarsTexPause = mTextures["StarWarsTexPause"]->Resource;
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 
@@ -449,8 +458,20 @@ void Game::BuildDescriptorHeaps()
 
 	//StarWars Descriptor
 	hDescriptor.Offset(1, mCbvSrvDescriptorSize);
-	srvDesc.Format = StarWarsTex->GetDesc().Format;
-	md3dDevice->CreateShaderResourceView(StarWarsTex.Get(), &srvDesc, hDescriptor);
+	srvDesc.Format = StarWarsTexTitle->GetDesc().Format;
+	md3dDevice->CreateShaderResourceView(StarWarsTexTitle.Get(), &srvDesc, hDescriptor);
+	//StarWars Descriptor
+	hDescriptor.Offset(1, mCbvSrvDescriptorSize);
+	srvDesc.Format = StarWarsTexMenu->GetDesc().Format;
+	md3dDevice->CreateShaderResourceView(StarWarsTexMenu.Get(), &srvDesc, hDescriptor);
+	//StarWars Descriptor
+	hDescriptor.Offset(1, mCbvSrvDescriptorSize);
+	srvDesc.Format = StarWarsTexOption->GetDesc().Format;
+	md3dDevice->CreateShaderResourceView(StarWarsTexOption.Get(), &srvDesc, hDescriptor);
+	//StarWars Descriptor
+	hDescriptor.Offset(1, mCbvSrvDescriptorSize);
+	srvDesc.Format = StarWarsTexPause->GetDesc().Format;
+	md3dDevice->CreateShaderResourceView(StarWarsTexPause.Get(), &srvDesc, hDescriptor);
 }
 
 void Game::BuildShadersAndInputLayout()
@@ -572,7 +593,10 @@ void Game::BuildMaterials()
 	CreateMaterials("Eagle", XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), 0.2f);
 	CreateMaterials("Raptor", XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), 0.2f);
 	CreateMaterials("Desert", XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), 0.2f);
-	CreateMaterials("StarWars", XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), 0.2f);
+	CreateMaterials("StarWars_Title", XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), 0.2f);
+	CreateMaterials("StarWars_Menu", XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), 0.2f);
+	CreateMaterials("StarWars_Option", XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), 0.2f);
+	CreateMaterials("StarWars_Pause", XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), 0.2f);
 }
 
 void Game::CreateMaterials(std::string Name, XMFLOAT4 DiffuseAlbedo, XMFLOAT3 FresnelR0, float Roughness)
@@ -592,6 +616,9 @@ void Game::RegisterStates()
 {
 	mStateStack.registerState<TitleState>(States::Title);
 	mStateStack.registerState<GameState>(States::Game);
+	mStateStack.registerState<MenuState>(States::Menu);
+	mStateStack.registerState<PauseState>(States::Pause);
+	mStateStack.registerState<OptionState>(States::Options);
 }
 
 std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> Game::GetStaticSamplers()

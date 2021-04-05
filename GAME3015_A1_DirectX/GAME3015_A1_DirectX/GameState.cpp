@@ -33,7 +33,11 @@ bool GameState::update(const GameTimer& gt)
 
 bool GameState::handleEvent(WPARAM btnState)
 {
-	// Nothing for now
+	if (d3dUtil::IsKeyDown('P'))
+	{
+		//requestStackPop();
+		requestStackPush(States::Pause);
+	}
 	
 	return true;
 }

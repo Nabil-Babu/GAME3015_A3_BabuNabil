@@ -38,14 +38,26 @@ bool OptionState::update(const GameTimer& gt)
 bool OptionState::handleEvent(WPARAM btnState)
 {
     // 1 - Arrow Keys
-
-
+    if (d3dUtil::IsKeyDown('1'))
+    {
+        mContext->player->remapKeys(1);
+        requestStackPop();
+        requestStackPush(States::Menu);
+    }
     // 2 - WASD
-
-
+    else if (d3dUtil::IsKeyDown('2'))
+    {
+        mContext->player->remapKeys(2);
+        requestStackPop();
+        requestStackPush(States::Menu);
+    }
     // B - Back
-
-
+    else if (d3dUtil::IsKeyDown('B'))
+    {
+        requestStackPop();
+        requestStackPush(States::Menu);
+    }
+    
     return true;
 }
 

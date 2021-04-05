@@ -37,10 +37,15 @@ bool PauseState::update(const GameTimer& gt)
 bool PauseState::handleEvent(WPARAM btnState)
 {
     // P - Resume
-
-
-    // Q - Quit to Menu
-
+    if (d3dUtil::IsKeyDown('P'))
+    {
+        requestStackPop();
+        requestStackPush(States::Game);
+    } else if (d3dUtil::IsKeyDown('Q'))  // Q - Quit to Menu
+    {
+        requestStackPop();
+        requestStackPush(States::Menu);
+    }
 
     return true;
 }
