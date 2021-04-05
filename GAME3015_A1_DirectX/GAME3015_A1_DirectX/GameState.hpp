@@ -18,6 +18,5 @@ public:
     void ProcessInput();
 private:
     World mWorld;
-
 };
 

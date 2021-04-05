@@ -6,7 +6,7 @@ PauseState::PauseState(StateStack* stack, Context* context) : State(stack, conte
 {
     mAllRitems.clear();
     mContext->game->ResetFrameResources();
-    //mContext->game->BuildMaterials();
+    mContext->game->BuildMaterials();
 
     std::unique_ptr<SpriteNode> backgroundSprite = std::make_unique<SpriteNode>(this);
     backgroundSprite->SetMatGeoDrawName("StarWars_Pause", "boxGeo", "box");

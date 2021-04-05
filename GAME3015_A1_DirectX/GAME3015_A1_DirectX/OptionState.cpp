@@ -6,7 +6,7 @@ OptionState::OptionState(StateStack* stack, Context* context) : State(stack, con
 {
     mAllRitems.clear();
     mContext->game->ResetFrameResources();
-    //mContext->game->BuildMaterials();
+    mContext->game->BuildMaterials();
 
     std::unique_ptr<SpriteNode> backgroundSprite = std::make_unique<SpriteNode>(this);
     backgroundSprite->SetMatGeoDrawName("StarWars_Option", "boxGeo", "box");

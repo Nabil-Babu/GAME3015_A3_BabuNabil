@@ -117,8 +117,8 @@ VertexOut VS(VertexIn vin)
     float4 texC = mul(float4(vin.TexC, 0.0f, 1.0f), gTexTransform);
 
     //Hooman1 - From Class Video
-    //vout.TexC = mul(texC, gMatTransform).xy;
-    vout.TexC = texC;
+    vout.TexC = mul(texC, gMatTransform).xy;
+    //vout.TexC = texC;
 
     return vout;
 }
@@ -129,8 +129,8 @@ float4 PS(VertexOut pin) : SV_Target
     //component of our material
 
     //Hooman2 - From Class Video
-    float4 diffuseAlbedo = gDiffuseMap.Sample(gsamPointWrap, pin.TexC);
-    //float4 diffuseAlbedo = gDiffuseMap.Sample(gsamPointWrap, pin.TexC) * gDiffuseAlbedo;
+    //float4 diffuseAlbedo = gDiffuseMap.Sample(gsamPointWrap, pin.TexC);
+    float4 diffuseAlbedo = gDiffuseMap.Sample(gsamPointWrap, pin.TexC) * gDiffuseAlbedo;
 
     clip(diffuseAlbedo.a - 0.1f);
 
@@ -147,14 +147,14 @@ float4 PS(VertexOut pin) : SV_Target
     float4 ambient = gAmbientLight*diffuseAlbedo;
 
     //Hooman3 - From Class Video
-    //const float shininess = 1.0f - gRoughness;
-    const float shininess = 0.2f;
+    const float shininess = 1.0f - gRoughness;
+    //const float shininess = 0.2f;
     
     
     //Hooman4 - From Class Video
-    //Material mat = { diffuseAlbedo, gFresnelR0, shininess };
-    float3 gf = float3(0.5f, 0.5f, 0.5f);
-    Material mat = { diffuseAlbedo, gf, shininess };
+    Material mat = { diffuseAlbedo, gFresnelR0, shininess };
+    //float3 gf = float3(0.5f, 0.5f, 0.5f);
+    //Material mat = { diffuseAlbedo, gf, shininess };
     
     
     

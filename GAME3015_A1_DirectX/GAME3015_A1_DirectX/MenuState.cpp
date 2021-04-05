@@ -6,6 +6,7 @@ MenuState::MenuState(StateStack* stack, Context* context) : State(stack, context
 {
     mAllRitems.clear();
     mContext->game->ResetFrameResources();
+    mContext->game->BuildMaterials();
 
     std::unique_ptr<SpriteNode> backgroundSprite = std::make_unique<SpriteNode>(this);
     backgroundSprite->SetMatGeoDrawName("StarWars_Menu", "boxGeo", "box");

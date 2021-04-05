@@ -7,6 +7,7 @@ GameState::GameState(StateStack* stack, Context* context)
 {
 	mAllRitems.clear();
 	mContext->game->ResetFrameResources();
+	mContext->game->BuildMaterials();
 	
 	mWorld.buildScene();
 	
@@ -35,7 +36,7 @@ bool GameState::handleEvent(WPARAM btnState)
 {
 	if (d3dUtil::IsKeyDown('P'))
 	{
-		//requestStackPop();
+		requestStackPop();
 		requestStackPush(States::Pause);
 	}
 	
