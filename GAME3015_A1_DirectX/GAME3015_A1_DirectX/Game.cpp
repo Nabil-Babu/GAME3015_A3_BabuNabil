@@ -334,7 +334,7 @@ void Game::LoadTextures()
 	//Desert
 	CreateTexture("DesertTex", L"../../Textures/Desert.dds");
 	//StarWars
-	CreateTexture("StarWarsTex", L"../../Textures/StarWars.dds");
+	CreateTexture("StarWarsTex", L"../../Textures/StarWars_Menu.dds");
 }
 
 void Game::CreateTexture(std::string Name, std::wstring FileName)

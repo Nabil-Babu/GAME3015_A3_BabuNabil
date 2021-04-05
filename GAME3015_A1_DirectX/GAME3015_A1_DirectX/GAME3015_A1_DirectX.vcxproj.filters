@@ -16,12 +16,6 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{69b7a06b-4afa-4463-88f8-50c1e14ef092}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\States">
-      <UniqueIdentifier>{183e1f42-8727-4b18-86b1-49608df46dc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\States">
-      <UniqueIdentifier>{2d77a20e-4e01-48f4-93b5-4c0213a6e162}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\Camera.cpp">
@@ -78,17 +72,17 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TitleState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="StateStack.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Source Files\States</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,20 +146,20 @@
     <ClInclude Include="Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateIdentifiers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateStack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="GameState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="State.hpp">
-      <Filter>Header Files\States</Filter>
-    </ClInclude>
-    <ClInclude Include="StateIdentifiers.hpp">
-      <Filter>Header Files\States</Filter>
-    </ClInclude>
-    <ClInclude Include="StateStack.hpp">
-      <Filter>Header Files\States</Filter>
-    </ClInclude>
     <ClInclude Include="TitleState.hpp">
-      <Filter>Header Files\States</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +175,18 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\..\Textures\StarWars.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Textures\StarWars_Menu.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Textures\StarWars_Option.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Textures\StarWars_Pause.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Textures\StarWars_Title.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -6,11 +6,10 @@ GameState::GameState(StateStack* stack, Context* context)
 	, mWorld(this)
 {
 	mAllRitems.clear();
-	
+	mContext->game->ResetFrameResources();
 	
 	mWorld.buildScene();
-
-	mContext->game->ResetFrameResources();
+	
 	mContext->game->BuildFrameResources(mAllRitems.size());
 }
 

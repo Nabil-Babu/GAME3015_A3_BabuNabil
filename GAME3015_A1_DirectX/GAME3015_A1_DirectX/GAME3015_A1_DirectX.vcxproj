@@ -201,6 +201,10 @@
   <ItemGroup>
     <Image Include="..\..\Textures\Eagle.dds" />
     <Image Include="..\..\Textures\StarWars.png" />
+    <Image Include="..\..\Textures\StarWars_Menu.png" />
+    <Image Include="..\..\Textures\StarWars_Option.png" />
+    <Image Include="..\..\Textures\StarWars_Pause.png" />
+    <Image Include="..\..\Textures\StarWars_Title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
