@@ -6,6 +6,9 @@ TitleState::TitleState(StateStack* stack, Context* context)
     : State(stack, context)
 {
     mAllRitems.clear();
+    mContext->game->ResetFrameResources();
+    //mContext->game->BuildMaterials();
+
     std::unique_ptr<SpriteNode> backgroundSprite = std::make_unique<SpriteNode>(this);
     backgroundSprite->SetMatGeoDrawName("StarWars", "boxGeo", "box");
     backgroundSprite->setScale(11.5, 1.0, 10.0);

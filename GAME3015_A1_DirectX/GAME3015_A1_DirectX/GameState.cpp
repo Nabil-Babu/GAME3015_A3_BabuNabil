@@ -6,10 +6,11 @@ GameState::GameState(StateStack* stack, Context* context)
 	, mWorld(this)
 {
 	mAllRitems.clear();
-
-	mWorld.buildScene();
-	mSceneGraph->build();
 	
+	
+	mWorld.buildScene();
+
+	mContext->game->ResetFrameResources();
 	mContext->game->BuildFrameResources(mAllRitems.size());
 }
 
@@ -20,7 +21,6 @@ GameState::~GameState()
 void GameState::draw()
 {
 	mWorld.draw();
-	mSceneGraph->draw();
 }
 
 bool GameState::update(const GameTimer& gt)
@@ -28,7 +28,6 @@ bool GameState::update(const GameTimer& gt)
 	ProcessInput();
 
 	mWorld.update(gt);
-	mSceneGraph->update(gt);
 
 	return true;
 }
@@ -36,6 +35,7 @@ bool GameState::update(const GameTimer& gt)
 bool GameState::handleEvent(WPARAM btnState)
 {
 	// Nothing for now
+	
 	return true;
 }
 

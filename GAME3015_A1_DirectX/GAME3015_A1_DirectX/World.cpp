@@ -94,4 +94,4 @@ void World::adaptPlayerVelocity()
 	if (velocity.x != 0.f && velocity.z != 0.f)
 		mPlayerAircraft->setVelocity(velocity.x / std::sqrt(2.f), velocity.y / std::sqrt(2.f), velocity.z / std::sqrt(2.f));
 
-	}
+}

@@ -31,13 +31,7 @@ private:
 	
 	void CreateTexture(std::string Name, std::wstring FileName);
 	void CreateMaterials(std::string Name, XMFLOAT4 DiffuseAlbedo, XMFLOAT3 FresnelR0, float Roughness);
-	void BuildRootSignature();
-	void BuildDescriptorHeaps();
-	void BuildShadersAndInputLayout();
-	void BuildShapeGeometry();
-	
-	
-	
+
 	void RegisterStates();
 
 	std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
@@ -70,7 +64,7 @@ public:
 	//std::vector<std::unique_ptr<RenderItem>> mAllRitems;
 
 	// Render items divided by PSO.
-	std::vector<RenderItem*> mOpaqueRitems;
+	//std::vector<RenderItem*> mOpaqueRitems;
 
 	PassConstants mMainPassCB;
 
@@ -89,9 +83,14 @@ public:
 	StateStack mStateStack;
 	
 	void BuildFrameResources(int renderItemCount);
+	void ResetFrameResources();
 	void BuildPSOs();
 	void BuildMaterials();
 	void LoadTextures();
+	void BuildRootSignature();
+	void BuildDescriptorHeaps();
+	void BuildShadersAndInputLayout();
+	void BuildShapeGeometry();
 public:
 	ID3D12GraphicsCommandList*  getCmdList() { return mCommandList.Get(); }
 	//std::vector<std::unique_ptr<RenderItem>>& getRenderItems() { return mAllRitems; }

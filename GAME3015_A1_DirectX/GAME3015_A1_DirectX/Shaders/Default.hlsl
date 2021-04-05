@@ -115,7 +115,10 @@ VertexOut VS(VertexIn vin)
     //Because sometimes it makes more sense for the material to transform the textures (for animated materials like water), but sometimes it makes more sense for the texture transform to be a property of the object.
 
     float4 texC = mul(float4(vin.TexC, 0.0f, 1.0f), gTexTransform);
-    vout.TexC = mul(texC, gMatTransform).xy;
+
+    //Hooman1 - From Class Video
+    //vout.TexC = mul(texC, gMatTransform).xy;
+    vout.TexC = texC;
 
     return vout;
 }
@@ -125,7 +128,9 @@ float4 PS(VertexOut pin) : SV_Target
     //step17: we add a diffuse albedo texture map to specify the diffuse albedo
     //component of our material
 
-    float4 diffuseAlbedo = gDiffuseMap.Sample(gsamPointWrap, pin.TexC) * gDiffuseAlbedo;
+    //Hooman2 - From Class Video
+    float4 diffuseAlbedo = gDiffuseMap.Sample(gsamPointWrap, pin.TexC);
+    //float4 diffuseAlbedo = gDiffuseMap.Sample(gsamPointWrap, pin.TexC) * gDiffuseAlbedo;
 
     clip(diffuseAlbedo.a - 0.1f);
 
@@ -141,8 +146,18 @@ float4 PS(VertexOut pin) : SV_Target
     // Light terms. Note that we are using diffuseAlbedo instead of gDiffuseAlbedo
     float4 ambient = gAmbientLight*diffuseAlbedo;
 
-    const float shininess = 1.0f - gRoughness;
-    Material mat = { diffuseAlbedo, gFresnelR0, shininess };
+    //Hooman3 - From Class Video
+    //const float shininess = 1.0f - gRoughness;
+    const float shininess = 0.2f;
+    
+    
+    //Hooman4 - From Class Video
+    //Material mat = { diffuseAlbedo, gFresnelR0, shininess };
+    float3 gf = float3(0.5f, 0.5f, 0.5f);
+    Material mat = { diffuseAlbedo, gf, shininess };
+    
+    
+    
     float3 shadowFactor = 1.0f;
     float4 directLight = ComputeLighting(gLights, mat, pin.PosW,
         pin.NormalW, toEyeW, shadowFactor);

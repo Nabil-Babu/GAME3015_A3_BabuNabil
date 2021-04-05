@@ -75,6 +75,15 @@ void Game::Update(const GameTimer& gt)
 	//ProcessInput();
 	mStateStack.update(gt);
 	mStateStack.handleRealtimeInput();
+
+	if (mStateStack.isEmpty())
+	{
+		PostQuitMessage(0);
+		return;
+	}
+
+
+
 	UpdateCamera(gt);
 
 	// Cycle through the circular frame resource array.
@@ -91,7 +100,7 @@ void Game::Update(const GameTimer& gt)
 		CloseHandle(eventHandle);
 	}
 
-	AnimateMaterials(gt);
+	//AnimateMaterials(gt);
 	UpdateObjectCBs(gt);
 	UpdateMaterialCBs(gt);
 	UpdateMainPassCB(gt);
@@ -337,7 +346,6 @@ void Game::CreateTexture(std::string Name, std::wstring FileName)
 		mCommandList.Get(), texture->Filename.c_str(),
 		texture->Resource, texture->UploadHeap));
 	mTextures[texture->Name] = std::move(texture);
-
 }
 
 void Game::BuildRootSignature()
@@ -545,13 +553,18 @@ void Game::BuildPSOs()
 
 void Game::BuildFrameResources(int renderItemCount)
 {
-	mFrameResources.clear();
+	//mFrameResources.clear();
 
 	for (int i = 0; i < gNumFrameResources; ++i)
 	{
 		mFrameResources.push_back(std::make_unique<FrameResource>(md3dDevice.Get(),
 			1, (UINT)renderItemCount, (UINT)mMaterials.size()));
 	}
+}
+
+void Game::ResetFrameResources()
+{
+	mFrameResources.clear();
 }
 //step13
 void Game::BuildMaterials()
@@ -566,16 +579,13 @@ void Game::CreateMaterials(std::string Name, XMFLOAT4 DiffuseAlbedo, XMFLOAT3 Fr
 {
 	auto material = std::make_unique<Material>();
 	material->Name = Name;
-	material->MatCBIndex = mCurrentMaterialCBIndex;
-	material->DiffuseSrvHeapIndex = mCurrentDiffuseSrvHeapIndex;
+	material->MatCBIndex = mCurrentMaterialCBIndex++;
+	material->DiffuseSrvHeapIndex = mCurrentDiffuseSrvHeapIndex++;
 	material->DiffuseAlbedo = DiffuseAlbedo;
 	material->FresnelR0 = FresnelR0;
 	material->Roughness = Roughness;
 	
 	mMaterials[Name] = std::move(material);
-	
-	mCurrentMaterialCBIndex++;
-	mCurrentDiffuseSrvHeapIndex++;
 }
 
 void Game::RegisterStates()
